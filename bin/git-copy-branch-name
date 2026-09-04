@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: git copy-branch-name <target-branch> [--push]
+# Example: git copy-branch-name
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  echo "Usage: git copy-branch-name"
+  echo
+  echo "Copies the current git branch into your clipboard."
+  exit 0
+fi
+# Error when we are not in a git repository
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+  echo "Error: not inside a git repository." >&2
+  exit 1
+fi
+
+# todo: check if we have pbcopy available.
+# todo: support linux and pbcopy alternatives
+
+# Save current branch name
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+
+echo "${current_branch}" | pbcopy
+
+echo "Copied branch name ${current_branch} to your clipboard."
+
+exit 0

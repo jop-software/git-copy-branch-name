@@ -1,0 +1,25 @@
+name: Link
+
+on:
+  pull_request:
+
+jobs:
+  link:
+    name: Lint codebase
+    runs-on: ubuntu-slim
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+      - uses: editorconfig-checker/action-editorconfig-checker@main
+
+      - name: Run ShellCheck on bin/git-merge-to
+        run: |
+          shellcheck bin/git-merge-to
+
+      - name: Run editorconfig-checker
+        run: editorconfig-checker
