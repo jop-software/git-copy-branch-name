@@ -16,7 +16,11 @@ if ! git rev-parse --git-dir >/dev/null 2>&1; then
   exit 1
 fi
 
-# todo: check if we have pbcopy available.
+if ! command -v pbcopy &> /dev/null ; then
+  echo "Error: pbcopy is not installed."
+  exit 1
+fi
+
 # todo: support linux and pbcopy alternatives
 
 # Save current branch name
